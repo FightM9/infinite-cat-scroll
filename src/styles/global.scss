@@ -1,0 +1,49 @@
+/* bring in normalize.css styles */
+@import-normalize;
+
+:root {
+  --primary: var(--blue-500); 
+  
+  --blue-100: #b2dbfb;
+  --blue-200: #a2d3fa;
+  --blue-300: #82c4f8;
+  --blue-400: #51adf6;
+  --blue-500: #2196F3;
+  --blue-600: #1E88E5;
+  --blue-700: #0960a5;
+  --blue-800: #064475;
+  --blue-900: #042845;
+  
+  --red-100: #fde6df;
+  --red-200: #fac0ae;
+  --red-300: #f89a7e;
+  --red-400: #f5744e;
+  --red-500: #F24E1E;
+  --red-600: #d1390c;
+  --red-700: #a12c09;
+  --red-800: #711f07;
+  --red-900: #401104;
+
+  --black: #1D1C1C;
+
+  --shadow-1: 0px 4px 4px rgba(0, 0, 0, 0.24);
+  --shadow-2: 0px 6px 5px rgba(0, 0, 0, 0.24), 0px 9px 18px rgba(0, 0, 0, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif, 'Segoe UI', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

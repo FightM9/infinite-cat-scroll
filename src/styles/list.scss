@@ -1,0 +1,60 @@
+.list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+    gap: 46px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media (max-width: 320px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.list-item {
+    position: relative;
+    color: var(--red-500);
+    box-shadow: none;
+    transform: scale(1);
+    transition: box-shadow,transform 0.15s ease-in-out;
+
+    &:hover {
+        box-shadow: var(--shadow-2);
+        transform: scale(1.02);
+    }
+
+    &:hover .list-favorite {
+        opacity: 1;
+    }
+}
+
+.list-image {
+    display: block;
+    margin: 0;
+    width: 100%;
+    height: 225px;
+    object-fit: cover;
+    border-radius: 2px;
+    background-color: rgb(241, 238, 238);
+    background-image: url('../../public/spinner.svg');
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.list-favorite {
+    position: absolute;
+    background: transparent;
+    bottom: 16px;
+    right: 16px;
+    padding: 0;
+    color: var(--red-500);
+    opacity: 0;
+    border: none;
+    cursor: pointer;;
+    transition: opacity, 0.3s ease-in-out;
+
+    &:active {
+        color: var(--red-600);
+    }
+}
