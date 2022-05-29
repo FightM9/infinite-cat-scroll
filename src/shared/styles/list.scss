@@ -1,6 +1,6 @@
 .list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
     gap: 46px;
     margin: 0;
     padding: 0;
@@ -36,7 +36,7 @@
     object-fit: cover;
     border-radius: 2px;
     background-color: rgb(241, 238, 238);
-    background-image: url('../../public/spinner.svg');
+    background-image: url('../../../public/spinner.svg');
     background-size: 50%;
     background-repeat: no-repeat;
     background-position: center;

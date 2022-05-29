@@ -1,0 +1,17 @@
+.button {
+    padding: 8px 16px;
+    color: white;
+    border-radius: 2px;
+    background: var(--blue-500);
+    border: none;
+    cursor: pointer;
+    user-select: none;
+
+    &:active {
+        background-color: var(--blue-600);
+    }
+
+    &:hover {
+        background-color: var(--blue-400);
+    }
+}

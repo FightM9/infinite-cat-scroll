@@ -1,0 +1,24 @@
+// Page
+
+.page {
+    padding: 52px 0;
+}
+
+.page-message {
+    padding: 15vh 0;
+    text-align: center;
+}
+
+.container {
+    max-width: calc(1440px - 2 * 16px);
+    padding: 0 16px;
+    margin: 0 auto;
+}
+
+// Home 
+
+.home {
+    display: grid;
+    gap: 46px;
+}
+
