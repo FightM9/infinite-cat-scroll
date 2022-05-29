@@ -1,50 +1,31 @@
+import { useFavoriteCats, useFetchCats } from 'hooks';
 import ImageList from 'components/ImageList';
-import { useFetchCats } from 'hooks';
-import { useEffect, useRef, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
 
-const Home = () => {
-  const btn = useRef(null);
-  const [ref, inView] = useInView({ threshold: 0 });
-  const [visible, setVisible] = useState(inView);
-  const [{ data, fetchImage }] = useFetchCats();
+import 'shared/styles/button.scss';
+import 'shared/styles/page.scss';
+import { FC } from 'react';
 
-  const LoadMoreImage = () => {
-    fetchImage();
-  };
+const Home:FC = () => {
+  const [{ data, fetchImage, isLoading, isError, errorMessage }] =
+    useFetchCats();
+  const [{ favoriteCats, toggleFavorite }] = useFavoriteCats();
 
-  const cl = () => {
-    //@ts-ignore
-    btn.current.click()
-  }
-
-  // setTimeout(cl, 2000)
-
-
-  useEffect(() => {
-    console.log(visible);
-    if (visible) {
-      // @ts-ignore
-      btn.current.click();
-      console.log(btn.current);
-    }
-  }, [visible]);
-
-  useEffect(() => {
-    setVisible(inView);
-  }, [inView]);
+  if (isError) return <p>{errorMessage}</p>;
 
   return (
-    <div>
-      <div style={{ position: 'fixed', zIndex: 10 }}>
-        <h1> Now {inView.toString()}</h1>
-      </div>
-      <ImageList images={data} lastElementRef={ref} />
-      <div style={{ textAlign: 'center' }}>
-        <button className='ss' ref={btn} onClick={LoadMoreImage}>
-          Load More
-        </button>
-      </div>
+    <div className='home'>
+      <ImageList
+        images={data}
+        toggleFavorite={toggleFavorite}
+        favoriteList={favoriteCats}
+      />
+      {!isLoading ? (
+        <div style={{ textAlign: 'center' }}>
+          <button className='button' onClick={() => fetchImage()}>
+            Load More
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 };

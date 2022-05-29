@@ -1,30 +1,26 @@
 import { useEffect, useState } from 'react';
-import { getImages } from 'api/config';
 import axios from 'axios';
+import { getImages } from 'shared/api/config';
+import { Cat } from 'shared/types';
 
-export interface Cat {
-  breeds: [];
-  categories: [{}];
-  height: number;
-  id: string;
-  url: string;
-  width: number;
-}
+/**
+ * Fetch data from API
+ */
 
 export const useFetchCats = () => {
   const [data, setData] = useState<Cat[]>([]);
-  const [url, setUrl] = useState(getImages(15,1));
-  const [isLoading, setIsLoading] = useState(false);
+  const [url, setUrl] = useState(getImages(20, 1));
+  const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  
-  let nextPage = 2;
-  let totalPages = 1;
+  const [totalPages, setTotalPaget] = useState(2);
+  const [pageNumber, setPageNumber] = useState(1);
 
   const fetchImage = () => {
-    if (nextPage !== totalPages) {
-      setUrl(getImages(15, nextPage));
-      nextPage++;      
+    // Check and set next page URL
+    if (pageNumber !== totalPages) {
+      setUrl(getImages(15, pageNumber));
+      setPageNumber(pageNumber + 1);
     }
   };
 
@@ -36,23 +32,22 @@ export const useFetchCats = () => {
   };
 
   useEffect(() => {
+    // Check the URL for correctness
     const fetchData = async () => {
       if (!url) {
         setError('Invalid URL');
       }
-
       setIsError(false);
       setIsLoading(true);
-
       try {
         await axios(url).then((result) => {
-          const cats: Cat[] = result.data;      
-          totalPages = parseInt(result.headers['content-length']);          
-
+          const cats: Cat[] = result.data;
+          // Set the total number of pages
+          setTotalPaget(parseInt(result.headers['content-length']));
+          // Checking and set cat data
           if (!cats.length) {
             setError('Data is empty');
           } else {
-            const result = Array.from(new Set([...data, ...cats]));
             setData(Array.from(new Set([...data, ...cats])));
           }
         });
@@ -63,7 +58,7 @@ export const useFetchCats = () => {
     };
 
     fetchData();
-  }, [url, nextPage]);
+  }, [url]);
 
   return [{ data, isLoading, isError, errorMessage, fetchImage }];
 };
