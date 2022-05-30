@@ -1,16 +1,25 @@
-import { useFavoriteCats, useFetchCats } from 'hooks';
+import { FC, useEffect } from 'react';
 import ImageList from 'components/ImageList';
+import { useFavoriteCats, useFetchCats } from 'hooks';
 
 import 'shared/styles/button.scss';
 import 'shared/styles/page.scss';
-import { FC } from 'react';
 
-const Home:FC = () => {
-  const [{ data, fetchImage, isLoading, isError, errorMessage }] =
-    useFetchCats();
+const Home: FC = () => {
   const [{ favoriteCats, toggleFavorite }] = useFavoriteCats();
+  const [{ data, fetchImage, isLoading, isError, errorMessage }] = useFetchCats();
 
-  if (isError) return <p>{errorMessage}</p>;
+  const fetchData = () => {
+    fetchImage();
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+
+  if (data.length === 0 && isLoading) return <p>Loading...</p>;
+  if (isError) return <p>{errorMessage}</p>
 
   return (
     <div className='home'>
@@ -19,13 +28,11 @@ const Home:FC = () => {
         toggleFavorite={toggleFavorite}
         favoriteList={favoriteCats}
       />
-      {!isLoading ? (
-        <div style={{ textAlign: 'center' }}>
-          <button className='button' onClick={() => fetchImage()}>
-            Load More
-          </button>
-        </div>
-      ) : null}
+      <div style={{ textAlign: 'center' }}>
+        <button className='button' onClick={fetchData}>
+          Load More
+        </button>
+      </div>
     </div>
   );
 };
