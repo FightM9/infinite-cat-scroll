@@ -30,6 +30,12 @@
   --shadow-2: 0px 6px 5px rgba(0, 0, 0, 0.24), 0px 9px 18px rgba(0, 0, 0, 0.18);
 }
 
+html {
+  /* Remove scrollbar padding  */
+  overflow-x: hidden;
+  margin-right: calc(-1 * (100vw - 100%));
+}
+
 * {
   box-sizing: border-box;
 }
