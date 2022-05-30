@@ -2,14 +2,10 @@ import { FC, useEffect, useState } from 'react';
 import ImageList from 'components/ImageList';
 import { useFavoriteCats } from 'hooks';
 import { Cat } from 'shared/types';
-import axios from 'axios';
-import { BASE } from 'shared/api/config';
 
 import 'shared/styles/button.scss';
 import 'shared/styles/page.scss';
-
-export const fetchImages = (page: number) =>
-  axios.get(`https://api.thecatapi.com/v1/images/search?limit=10&page=${page}&order=desc`);
+import { fetchImages } from 'shared/api/config';
 
 const Home: FC = () => {
   const [{ favoriteCats, toggleFavorite }] = useFavoriteCats();
