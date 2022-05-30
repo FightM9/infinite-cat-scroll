@@ -33,19 +33,20 @@ export const useFetchCats = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log(url);
       setIsError(false);
       setIsLoading(true);
       try {
         await axios.get(url).then((result) => {
           const cats: Cat[] = result.data;
-          console.log(cats);
           // Set the total number of pages
           setTotalPaget(parseInt(result.headers['content-length']));
           // Checking and set cat data
           if (!cats.length) {
             setError('Data is empty');
           } else {
-            setData(Array.from(new Set([...data, ...cats])));
+            const newData = Array.from(new Set([...data, ...cats]))
+            setData(newData);
           }
         });
       } catch (error) {

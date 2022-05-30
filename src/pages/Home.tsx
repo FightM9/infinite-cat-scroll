@@ -1,35 +1,24 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import ImageList from 'components/ImageList';
 import { useFavoriteCats, useFetchCats } from 'hooks';
-import { Cat } from 'shared/types';
 
 import 'shared/styles/button.scss';
 import 'shared/styles/page.scss';
-import { fetchImages } from 'shared/api/config';
 
 const Home: FC = () => {
   const [{ favoriteCats, toggleFavorite }] = useFavoriteCats();
-  const [{data, fetchImage}] = useFetchCats()
-  // const [data, setData] = useState<Cat[]>([]);
-  const [page, setPage] = useState(1);
-  const [isError, setIsError] = useState(false);
-
-  console.log('start home');
+  const [{ data, fetchImage, isLoading, isError, errorMessage }] = useFetchCats();
 
   useEffect(() => {
-    fetchImage()
-
-    // fetchImages(page)
-    //   .then((result) => setData([...data, ...result.data]))
-    //   .then(() => setIsError(false))
-    //   .catch(() => setIsError(true));
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const fetchData = () => {
+    fetchImage();
+  };
 
-  if (data.length === 0) return <>loading</> 
+  if (data.length === 0 && isLoading) return <p>Loading...</p>;
+  if (isError) return <p>{errorMessage}</p>
 
   return (
     <div className='home'>
@@ -39,7 +28,7 @@ const Home: FC = () => {
         favoriteList={favoriteCats}
       />
       <div style={{ textAlign: 'center' }}>
-        <button className='button' onClick={() => fetchImage()}>
+        <button className='button' onClick={fetchData}>
           Load More
         </button>
       </div>
