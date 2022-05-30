@@ -9,20 +9,23 @@ import axios from 'axios';
 import { Cat } from 'shared/types';
 
 export const fetchImages = () =>
-  axios.get('https:/api.thecatapi.com/v1/images/search?limit=20&page=1');
+  axios.get('https://api.thecatapi.com/v1/images/search?limit=10&page=1&order=desc');
 
 const Home: FC = () => {
   const [{ favoriteCats, toggleFavorite }] = useFavoriteCats();
   const [cats, setCast] = useState<Cat[]>([]);
   const [page, setPage] = useState(1);
 
-  console.log('start home');
-  console.log(cats);
-  
+  console.log('start home');  
 
   useEffect(() => {
     fetchImages().then((result) => setCast(result.data));
   }, []);
+
+  useEffect(() => {
+    console.log(cats);
+  }, [cats]);
+
 
   // useEffect(() => {
   //   axios
