@@ -8,8 +8,8 @@ import { BASE } from 'shared/api/config';
 import 'shared/styles/button.scss';
 import 'shared/styles/page.scss';
 
-export const fetchImages = () =>
-  axios.get('https://api.thecatapi.com/v1/images/search?limit=10&page=1&order=desc');
+export const fetchImages = (page: number) =>
+  axios.get(`https://api.thecatapi.com/v1/images/search?limit=10&page=${page}&order=desc`);
 
 const Home: FC = () => {
   const [{ favoriteCats, toggleFavorite }] = useFavoriteCats();
@@ -20,7 +20,7 @@ const Home: FC = () => {
   console.log('start home');
 
   useEffect(() => {
-    fetchImages()
+    fetchImages(page)
       .then((result) => setData([...data, ...result.data]))
       .then(() => setIsError(false))
       .catch(() => setIsError(true));
