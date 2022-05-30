@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { getImages } from 'shared/api/config';
+import { getImages, KEY } from 'shared/api/config';
 import { Cat } from 'shared/types';
 
 /**
@@ -40,7 +40,11 @@ export const useFetchCats = () => {
       setIsError(false);
       setIsLoading(true);
       try {
-        await axios(url).then((result) => {
+        await axios(url,{
+          headers: {
+            'x-api-key': KEY
+          }
+        }).then((result) => {
           const cats: Cat[] = result.data;
           // Set the total number of pages
           setTotalPaget(parseInt(result.headers['content-length']));
