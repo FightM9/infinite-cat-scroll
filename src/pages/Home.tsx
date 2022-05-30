@@ -16,7 +16,11 @@ const Home: FC = () => {
   useEffect(() => {
     axios
       .get(getImages(20, page))
-      .then((result) => setCast([...cats, ...result.data]));
+      .then((result) => {
+        setCast([...cats, ...result.data])
+        console.log(result.data);      
+      });
+     
   }, [page]);
 
   return (
