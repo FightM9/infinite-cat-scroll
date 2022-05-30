@@ -1,46 +1,34 @@
-import { useFavoriteCats, useFetchCats } from 'hooks';
+import { FC, useEffect, useState } from 'react';
 import ImageList from 'components/ImageList';
+import { useFavoriteCats } from 'hooks';
+import { fetchImages } from 'shared/api/config';
+import { Cat } from 'shared/types';
 
 import 'shared/styles/button.scss';
 import 'shared/styles/page.scss';
-import { FC, useEffect, useState } from 'react';
-import { getImages } from 'shared/api/config';
-import axios from 'axios';
-import { Cat } from 'shared/types';
-
-export const fetchImages = () =>
-  axios.get('https://api.thecatapi.com/v1/images/search?limit=10&page=1&order=desc');
 
 const Home: FC = () => {
   const [{ favoriteCats, toggleFavorite }] = useFavoriteCats();
-  const [cats, setCast] = useState<Cat[]>([]);
+  const [data, setData] = useState<Cat[]>([]);
   const [page, setPage] = useState(1);
+  const [isError, setIsError] = useState(1);
 
-  console.log('start home');  
-
-  useEffect(() => {
-    fetchImages().then((result) => setCast(result.data));
-  }, []);
+  console.log('start home');
 
   useEffect(() => {
-    console.log(cats);
-  }, [cats]);
+    fetchImages(page)
+    .then((result) => setData([...data, ...result.data]))
+    .catch();
+  }, [page]);
 
-
-  // useEffect(() => {
-  //   axios
-  //     .get(getImages(20, page))
-  //     .then((result) => {
-  //       setCast([...cats, ...result.data])
-  //       console.log(result.data);      
-  //     });
-     
-  // }, [page]);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
     <div className='home'>
       <ImageList
-        images={cats}
+        images={data}
         toggleFavorite={toggleFavorite}
         favoriteList={favoriteCats}
       />
