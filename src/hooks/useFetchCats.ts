@@ -9,17 +9,17 @@ import { Cat } from 'shared/types';
 
 export const useFetchCats = () => {
   const [data, setData] = useState<Cat[]>([]);
-  const [url, setUrl] = useState(getImages(20, 1));
+  const [url, setUrl] = useState(getImages(1));
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [totalPages, setTotalPaget] = useState(2);
   const [pageNumber, setPageNumber] = useState(1);
+  const [totalPages, setTotalPaget] = useState(2);
 
   const fetchImage = () => {
     // Check and set next page URL
     if (pageNumber !== totalPages) {
-      setUrl(getImages(15, pageNumber));
+      setUrl(getImages(pageNumber));
       setPageNumber(pageNumber + 1);
     }
   };
@@ -32,18 +32,13 @@ export const useFetchCats = () => {
   };
 
   useEffect(() => {
-    // Check the URL for correctness
     const fetchData = async () => {
-      if (!url) {
-        setError('Invalid URL');
-      }
       setIsError(false);
       setIsLoading(true);
       try {
-        await axios(url).then((result) => {
+        await axios.get(url).then((result) => {
           const cats: Cat[] = result.data;
           console.log(cats);
-          
           // Set the total number of pages
           setTotalPaget(parseInt(result.headers['content-length']));
           // Checking and set cat data
