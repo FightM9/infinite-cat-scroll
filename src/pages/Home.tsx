@@ -3,29 +3,34 @@ import ImageList from 'components/ImageList';
 
 import 'shared/styles/button.scss';
 import 'shared/styles/page.scss';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { getImages } from 'shared/api/config';
+import axios from 'axios';
+import { Cat } from 'shared/types';
 
-const Home:FC = () => {
-  const [{ data, fetchImage, isLoading, isError, errorMessage }] =
-    useFetchCats();
+const Home: FC = () => {
   const [{ favoriteCats, toggleFavorite }] = useFavoriteCats();
+  const [cats, setCast] = useState<Cat[]>([]);
+  const [page, setPage] = useState(1);
 
-  if (isError) return <p>{errorMessage}</p>;
+  useEffect(() => {
+    axios
+      .get(getImages(20, page))
+      .then((result) => setCast([...cats, ...result.data]));
+  }, [page]);
 
   return (
     <div className='home'>
       <ImageList
-        images={data}
+        images={cats}
         toggleFavorite={toggleFavorite}
         favoriteList={favoriteCats}
       />
-      {!isLoading ? (
-        <div style={{ textAlign: 'center' }}>
-          <button className='button' onClick={() => fetchImage()}>
-            Load More
-          </button>
-        </div>
-      ) : null}
+      <div style={{ textAlign: 'center' }}>
+        <button className='button' onClick={() => setPage(page + 1)}>
+          Load More
+        </button>
+      </div>
     </div>
   );
 };
