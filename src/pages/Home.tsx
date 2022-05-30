@@ -8,20 +8,31 @@ import { getImages } from 'shared/api/config';
 import axios from 'axios';
 import { Cat } from 'shared/types';
 
+export const fetchImages = () =>
+  axios.get('https:/api.thecatapi.com/v1/images/search?limit=20&page=1');
+
 const Home: FC = () => {
   const [{ favoriteCats, toggleFavorite }] = useFavoriteCats();
   const [cats, setCast] = useState<Cat[]>([]);
   const [page, setPage] = useState(1);
 
+  console.log('start home');
+  console.log(cats);
+  
+
   useEffect(() => {
-    axios
-      .get(getImages(20, page))
-      .then((result) => {
-        setCast([...cats, ...result.data])
-        console.log(result.data);      
-      });
+    fetchImages().then((result) => setCast(result.data));
+  }, []);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(getImages(20, page))
+  //     .then((result) => {
+  //       setCast([...cats, ...result.data])
+  //       console.log(result.data);      
+  //     });
      
-  }, [page]);
+  // }, [page]);
 
   return (
     <div className='home'>
