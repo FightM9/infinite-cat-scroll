@@ -8,8 +8,8 @@ import { BASE } from 'shared/api/config';
 import 'shared/styles/button.scss';
 import 'shared/styles/page.scss';
 
-export const fetchImages = (page: number, limit = 20) =>
-  axios.get(`${BASE}/images/search?limit=${limit}&page=${page}&order=desc`);
+export const fetchImages = (page: number) =>
+  axios.get(`${BASE}/images/search?limit=20&page=${page}&order=desc`);
 
 const Home: FC = () => {
   const [{ favoriteCats, toggleFavorite }] = useFavoriteCats();
