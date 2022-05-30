@@ -40,11 +40,7 @@ export const useFetchCats = () => {
       setIsError(false);
       setIsLoading(true);
       try {
-        await axios(url,{
-          headers: {
-            'x-api-key': KEY
-          }
-        }).then((result) => {
+        await axios.get(url).then((result) => {
           const cats: Cat[] = result.data;
           // Set the total number of pages
           setTotalPaget(parseInt(result.headers['content-length']));
